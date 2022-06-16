@@ -6,5 +6,20 @@
 
 
 
-1. 최소 단위 모듈
- a) 
+ < 순서 - 최우선 목표: 팩맨 완성(~6.20, 월) >
+1. Layout
+2. Grid(레이아웃 기반 구성 테스트)
+3. Screen(1차-그리드 출력 테스트)
+3. Wall
+4. Entity
+ 4-1. Ghost
+ 4-2. PacMan
+5. Item
+ 5-1. Dot
+6. Screen(2차-엔티티 출력 테스트)
+7. Record
+8. ScoreBoard
+9. Game
+10. MusicPlayer
+11. docs(문서 구조 및 배치)
+12. stylesheet(디자인)

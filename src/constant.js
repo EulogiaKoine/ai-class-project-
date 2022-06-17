@@ -1,6 +1,6 @@
 let LAYOUT = `
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1
+1,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,1
 1,2,1,1,2,1,1,1,2,1,2,1,1,1,2,1,1,2,1
 1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1
 1,2,1,1,2,1,2,1,1,1,1,1,2,1,2,1,1,2,1
@@ -25,7 +25,7 @@ let LAYOUT = `
 //LAYOUT의 2차원 그리드화(x, y)
 if(true){
     LAYOUT = LAYOUT.trim().split('\n').map(v => v.split(','));
-    let arr = new Array(LAYOUT[0].length).fill(new Array(LAYOUT.length));
+    let arr = new Array(LAYOUT[0].length).fill(new Array(LAYOUT.length).fill(0));
 
     //LAYOUT(y, x) -> arr(x, y)
     for(let x in arr){
@@ -34,11 +34,3 @@ if(true){
 
     LAYOUT = arr;
 }
-
-const ID = [ //레이아웃의 각 숫자가 어떤 것을 가리키는지.
-    //0
-    //1
-    //2
-];
-
-const CANVAS_SCALE = 20; //px

@@ -4,7 +4,7 @@ class Grid {
     }
 
     init(layout){
-        if(!layout instanceof Array || layout[0][0] === undefined){
+        if(!(layout instanceof Array) || !(layout[0] instanceof Array)){
             throw new TypeError('layout must be a array');
         }
 

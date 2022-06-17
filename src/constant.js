@@ -29,9 +29,7 @@ if(true){
 
     //LAYOUT(y, x) -> arr(x, y)
     for(let x in arr){
-        for(let y in LAYOUT){
-            arr[x][y] = LAYOUT[y][x];
-        }
+        arr[x] = arr[x].map((v, y) => LAYOUT[y][x]);
     }
 
     LAYOUT = arr;

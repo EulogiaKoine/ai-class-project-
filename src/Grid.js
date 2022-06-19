@@ -15,8 +15,13 @@ class Grid {
             for(let y in grid[x]){
                 n = grid[x][y];
                 
-                if(n === '1'){
-                    grid[x][y] = new Wall(x, y);
+                switch(n){
+                    case '0':
+                        grid[x][y] = null;
+                        break;
+                    case '1':
+                        grid[x][y] = new Wall(x, y);
+                        break;
                 }
             }
         }
@@ -29,7 +34,46 @@ class Grid {
         return this.grid[x][y];
     }
 
-    getSize(){
+    has(obj){
+        const block = this.grid[obj.x][obj.y];
+
+        return (block === obj) || (block instanceof Array && block.indexOf(obj) !== -1);
+    }
+
+    set(obj){
+        if(this.has(obj)){
+            throw new Error(`the obj has been already exists in ${obj.x+', '+obj.y}`);
+        }
+
+        const grid = this.grid;
+        let block = grid[obj.x][obj.y];
+
+        if(block instanceof Wall){
+            throw new Error("Cannot set something over the wall!");
+        }
+
+        if(block instanceof Array){
+            block.push(obj);
+        } else {
+            grid[obj.x][obj.y] = obj;
+        }
+    }
+
+    remove(obj){
+        if(this.has(obj)){
+            const block = this.grid[obj.x][obj.y];
+
+            if(block instanceof Array){
+                block.splice(block.indexOf(obj), 1);
+            } else {
+                this.grid[obj.x][obj.y] = undefined;
+            }
+        } else {
+            throw new ReferenceError("the obj isn't exists in grid");
+        }
+    }
+
+    get size(){
         return [this.grid.length, this.grid[0].length]; //[x, y] 크기
     }
 }

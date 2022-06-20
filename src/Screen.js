@@ -43,12 +43,50 @@ class Screen {
         this.wall.push(wall);
     }
 
+    removeWall(wall){
+        const list = this.wall;
+
+        if(list.includes(wall)){
+            list.splice(list.indexOf(wall), 1);
+        } else {
+            throw new Error("the wall doesn't exists on screen");
+        }
+    }
+
     applyEntity(entity){
         if(this.entity.includes(entity)){
             throw new Error('the entity has already applied on screen');
         }
 
         this.entity.push(entity);
+    }
+
+    removeEntity(entity){
+        const list = this.entity;
+
+        if(list.includes(entity)){
+            list.splice(list.indexOf(entity), 1);
+        } else {
+            throw new Error("the entity doesn't exists on screen");
+        }
+    }
+
+    applyItem(item){
+        if(this.item.includes(item)){
+            throw new Error('the item has already applied on screen');
+        }
+
+        this.item.push(item);
+    }
+
+    removeItem(item){
+        const list = this.item;
+
+        if(list.includes(item)){
+            list.splice(list.indexOf(item), 1);
+        } else {
+            throw new Error("the item doesn't exists on screen");
+        }
     }
 
     draw(){

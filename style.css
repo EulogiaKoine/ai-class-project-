@@ -16,3 +16,8 @@ h1{
     background-color: black;
     margin-bottom: 51px;
 }
+
+#record-container {
+    padding: 10px;
+    margin: 0px;
+}

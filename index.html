@@ -10,14 +10,28 @@
     <title>PacMan - Testing</title>
 </head>
 <body>
-    <h1>Testing...</h1>
-    <canvas id="screen"></canvas>
-    <ol id="record-container"></ol>
-    <audio id="music" src="TheFatRat - Unity.mp3" controls loop></audio>
+    <div class="header">
+        <h1>Testing...</h1>
+    </div>
+    <div class="row">
+        <div class="column side">controller</div>
+        <div class="column middle">
+            <canvas id="screen"></canvas>
+        </div>
+        <div class="column side">
+            <h3 style="margin-top:5px;margin-bottom:5px;">Record</h3>
+            <ol id="record-container"></ol>
+        </div>
+    </div>
+    <div class="footer">
+        <p style="font-size:30px;margin-top:5px;margin-bottom:5px;">TheFatRat - Unity.mp3</p>
+        <audio id="music" src="TheFatRat - Unity.mp3" controls loop></audio>
+    </div>
 </body>
 </html>
 <script type="text/javascript" src="src/constant.js"></script>
 <script type="text/javascript" src="src/Record.js"></script>
+<script type="text/javascript" src="src/Scoreboard.js"></script>
 <script type="text/javascript" src="src/Wall.js"></script>
 <script type="text/javascript" src="src/Entity.js"></script>
 <!-- <script type="text/javascript" src="src/Ghost.js"></script> -->

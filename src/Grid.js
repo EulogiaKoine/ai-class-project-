@@ -17,10 +17,13 @@ class Grid {
                 
                 switch(n){
                     case '0':
-                        grid[x][y] = null;
+                        grid[x][y] = [];
                         break;
                     case '1':
                         grid[x][y] = new Wall(x, y);
+                        break;
+                    case '2':
+                        grid[x][y] = [new Item(x, y, 'dot', this)];
                         break;
                 }
             }

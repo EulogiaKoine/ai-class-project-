@@ -6,26 +6,34 @@
     <link rel="icon" type="image/x-icon" href="img/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/ca42bbbf84.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
     <link rel="stylesheet" href="style.css">
-    <title>PacMan - Testing</title>
+    <title>Draw! PacMan</title>
 </head>
 <body>
     <div class="header">
-        <h1>Testing...</h1>
+        <img src="img/title.png"/>
     </div>
     <div class="row">
-        <div class="column side">controller</div>
+        <div class="column side">
+            <pre style="margin:0px;padding:0px;">«     controller     »</pre>
+            <canvas id="controller" width="300px" height="300px"></canvas>
+            <button id="play">play</button>
+        </div>
         <div class="column middle">
             <canvas id="screen"></canvas>
         </div>
         <div class="column side">
-            <h3 style="margin-top:5px;margin-bottom:5px;">Record</h3>
-            <ol id="record-container"></ol>
+            <p class="scoreboard">Stage: <span id="stage-box"></span></p>
+            <p class="scoreboard">Score: <span id="score-box"></span></p>
+            <p class="music-name">TheFatRat - Unity.mp3</p>
+            <audio id="music" src="TheFatRat - Unity.mp3"" controls loop></audio>
         </div>
     </div>
     <div class="footer">
-        <p style="font-size:30px;margin-top:5px;margin-bottom:5px;">TheFatRat - Unity.mp3</p>
-        <audio id="music" src="TheFatRat - Unity.mp3" controls loop></audio>
+        <h2 style="margin-top:5px;margin-bottom:5px;text-align:center;">Record</h2>
+        <ol id="record-container"></ol>
     </div>
 </body>
 </html>
@@ -34,8 +42,11 @@
 <script type="text/javascript" src="src/Scoreboard.js"></script>
 <script type="text/javascript" src="src/Wall.js"></script>
 <script type="text/javascript" src="src/Entity.js"></script>
-<!-- <script type="text/javascript" src="src/Ghost.js"></script> -->
+<script type="text/javascript" src="src/Ghost.js"></script>
 <script type="text/javascript" src="src/Item.js"></script>
+<script type="text/javascript" src="src/PacMan.js"></script>
 <script type="text/javascript" src="src/Grid.js"></script>
 <script type="text/javascript" src="src/Screen.js"></script>
+<script type="text/javascript" src="src/Game.js"></script>
+<script type="text/javascript" src="src/Controller.js"></script>
 <script type="text/javascript" src="main.js"></script>

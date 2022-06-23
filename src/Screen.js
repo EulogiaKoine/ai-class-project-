@@ -30,6 +30,14 @@ class Screen {
             for(let obj of x){
                 if(obj instanceof Wall){
                     this.wall.push(obj);
+                } else if(obj instanceof Array){
+                    for(let i of obj){
+                        switch(i.constructor){
+                            case Item:
+                                this.item.push(i);
+                                break;
+                        }
+                    }
                 }
             }
         }
@@ -90,16 +98,18 @@ class Screen {
     }
 
     draw(){
-        const ctx = this.#ctx;
+        const ctx = this.#ctx, wall = this.wall, entity = this.entity, item = this.item;
         ctx.clearRect(0, 0, this.width, this.height);
-        for(let obj of this.wall){
-            obj.draw(ctx);
+
+        let i;
+        for(i in wall){
+            wall[i].draw(ctx);
         }
-        for(let obj of this.entity){
-            obj.draw(ctx);
+        for(i in item){
+            item[i].draw(ctx);
         }
-        for(let obj of this.item){
-            obj.draw(ctx);
+        for(i in entity){
+            entity[i].draw(ctx);
         }
     }
 }

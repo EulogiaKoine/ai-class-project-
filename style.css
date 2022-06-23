@@ -15,6 +15,7 @@ h1 {
 #screen {
     background-color: black;
     margin: auto;
+    border: 3px solid black;
 }
 
 #record-container {
@@ -27,9 +28,9 @@ body {
 }
 
 .header {
-  padding: 30px;
+  padding: 10px;
   text-align: center;
-  font-size: 35px;
+  font-size: 25x;
 }
 
 .column {
@@ -55,7 +56,57 @@ body {
 }
 
 .footer {
-    background-color: #f1f1f1;
+    border: 5px dotted #87CEFA;
+    margin-top: 10px;
     padding: 10px;
-    text-align: center;
+}
+
+.footer li {
+  margin-left: 20px;
+}
+
+.scoreboard {
+  text-align: left;
+  margin: 0px;
+}
+
+.music-name {
+  font-size: 13px;
+  margin-top: 250px;
+  margin-bottom: 5px;
+}
+
+#controller {
+  background: #25383C;
+  border: 3px solid #EBF4FA;
+  transition: 0.1s;
+}
+
+#controller:hover {
+  background: #EBF4FA;
+  border-color: #25383C;
+}
+
+#play {
+  background: #00FFFF;
+  border: 3px dashed #7FFFD4;
+  font-size: 15px;
+  width: 200px;
+  height: 50px;
+  transition: 0.2s;
+}
+
+#play:hover {
+  background: #FFFACD;
+  font-size: 18px;
+  width: 250px;
+  height: 60px;
+}
+
+#play:active {
+  background: #FFDF00;
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: rgba(0,0,0,0);
 }

@@ -11,13 +11,18 @@ class ScoreBoard {
         this.scoreBox = scoreBox;
     }
 
+    write(){
+        this.stageBox.innerText = this.stage;
+        this.scoreBox.innerText = this.score;
+    }
+
     writeStage(n){
         if(isNaN(n) || n < 1){
             throw new TypeError("stage must be a number more than or equal to 1");
         }
 
         this.stage = n;
-        this.stageBox.innerText = n;
+        this.write();
     }
 
     writeScore(n){
@@ -26,6 +31,6 @@ class ScoreBoard {
         }
 
         this.score = n;
-        this.scoreBox.innerText = n;
+        this.write();
     }
 }

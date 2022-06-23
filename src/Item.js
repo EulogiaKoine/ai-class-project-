@@ -9,11 +9,10 @@ class Item {
      * @param {Entity} user
      */
     static TYPES = {
-        test: function(user){
-            console.log('success');
-        },
-        dot: function(user){
-            
+        dot: function(user, screen){
+            scoreboard.writeScore(scoreboard.score + SCORE.DOT);
+            this.grid.remove(this);
+            screen.removeItem(this);
         }
     };
 
@@ -25,7 +24,7 @@ class Item {
         this.x = x;
         this.y = y;
         this.img = new Image();
-        this.img.src = 'img/item/'+type+'.png';
+        this.img.src = 'img/item/'+type+'.jpg';
         this.type = type;
         this.grid = grid;
     }
@@ -34,8 +33,8 @@ class Item {
         return [this.x, this.y];
     }
 
-    use(){
-        Item.TYPES[this.type].call(this);
+    use(user, screen){
+        Item.TYPES[this.type].call(this, user, screen);
     }
 
     draw(ctx){

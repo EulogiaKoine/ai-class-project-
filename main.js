@@ -7,3 +7,29 @@ music.volume = 0.2;
 
 const record = new Record(window.localStorage);
 record.init(document.getElementById('record-container'));
+record.write();
+
+const scoreboard = new ScoreBoard(document.getElementById('stage-box'), document.getElementById('score-box'));
+scoreboard.write();
+
+const game = new Game(screen, grid, scoreboard, record);
+document.getElementById('play').onclick = () => game.play();
+
+function handleKeydown(e){
+    if(e.keyCode < 37 || e.keyCode > 40) return;
+
+    const pac = game.pac, ctx = screen.getCtx();
+    if(pac === null) return;
+
+    pac.rotate(['left', 'up', 'right', 'down'][e.keyCode - 37]);
+    
+    ctx.clearRect(pac.x, pac.y, 1, 1);
+    pac.draw(ctx);
+    setTimeout(() => pac.draw(ctx), 100);
+}
+document.removeEventListener('keydown', handleKeydown);
+document.addEventListener('keydown', handleKeydown);
+
+const cont = document.getElementById('controller').getContext('2d');
+cont.fillStyle = 'white';
+const controller = new Controller(cont.canvas, game.pac);

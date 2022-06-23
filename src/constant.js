@@ -34,3 +34,9 @@ if(true){
 
     LAYOUT = arr;
 }
+
+const SCORE = {
+    'DOT': 10
+};
+
+const getStageDelay = stage => (1000 / Math.pow(stage, 2/3) + 500) / 2 >> 0;

@@ -30,7 +30,7 @@ class Record {
         for(i of record){
             li = document.createElement('li');
             li.className = 'record-li';
-            li.innerText = i.name + ": " + i.score;
+            li.innerText = i.name + ":  " + i.score;
             container.appendChild(li);
         }
     }

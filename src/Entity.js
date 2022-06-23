@@ -3,19 +3,20 @@ class Entity {
     y;
     img;
     grid;
+    screen;
     direction = 'up';
 
     static #directions = ['up', 'down', 'left', 'right'];
 
-    constructor(x, y, grid, img){
+    constructor(x, y, grid, img, screen){
         this.x = x;
         this.y = y;
+        this.screen = screen;
 
         this.grid = grid;
         grid.set(this);
 
-        this.img = new Image();
-        this.img.src = 'img/'+img;
+        this.img = 'img/'+img+'/.png';
     }
 
     get cord(){
@@ -76,6 +77,8 @@ class Entity {
     }
 
     draw(ctx){
-        ctx.drawImage(this.img, this.x, this.y, 1, 1);
+        const img = new Image();
+        img.src = this.img.replace(/\.png$/, this.direction+'.png');
+        ctx.drawImage(img, this.x, this.y, 1, 1);
     }
 }

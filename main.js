@@ -32,4 +32,5 @@ document.addEventListener('keydown', handleKeydown);
 
 const cont = document.getElementById('controller').getContext('2d');
 cont.fillStyle = 'white';
+cont.lineWidth = 5;
 const controller = new Controller(cont.canvas, game.pac);

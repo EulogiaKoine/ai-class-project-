@@ -2,35 +2,173 @@
 <html lang="ko" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>HTML CSS Left Right Split</title>
+    <title>ㅇㅅㅇ</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
     <style>
-      div.row {
-        width: 100%;
+      body {
         display: flex;
-        border: 1px solid #003458;
+        align-items: center;
       }
-      div.left {
-        width: 30%;
-        float: left;
-        box-sizing: border-box;
-        background: #8977ad;
-      }
-      div.right {
-        width: 70%;
-        float: right;
-        box-sizing: border-box;
-        background: #ece6cc;
-      }
+
+      #controller {
+        margin: auto;
+  background:white;
+  border: 3px solid #EBF4FA;
+  transition: 0.1s;
+}
+
+#controller:hover {
+  background: white;
+  border-color: #25383C;
+}
     </style>
   </head>
   <body>
-    <div class="row">
-      <div class="left">
-        왼쪽
-      </div>
-      <div class="right">
-        오른쪽
-      </div>
-    </div>
+    <a id="download">download</a>
+    <canvas id="controller" width="306px" height="306px"></canvas>
+    <a id='imglink' href='' target="_blank">link</a>
+    <script type="text/javascript">
+      const URL = "https://teachablemachine.withgoogle.com/models/rFuFEgdqQ/";
+let model, prediction, imageURL;
+
+(async function init() {
+    model = await tmImage.load(URL+"model.json", URL+"metadata.json");
+    maxPrediction = model.getTotalClasses();
+})()
+
+async function predict(canvas, controller) {
+    const img = new Image();
+    img.src = canvas.toDataURL();
+    img.crossOrigin = 'anonymous';
+    prediction = await model.predict(img);
+    prediction = prediction.sort((a, b) => b.probability - a.probability)[0];
+    
+    setTimeout(() => {
+        if(prediction.probability > 0.6){
+            controller.capture(prediction.className, 1);
+        } else {
+            controller.capture('none', 1);
+        }
+    }, 500);
+}
+
+//---------- Model Layer ----------
+
+class Controller {
+    canvas;
+    isDrawing = false;
+    ctx;
+    pac = null;
+    x = null;
+    y = null;
+    promise = null;
+
+    static directions = ['up', 'down', 'left', 'right'];
+
+    static mousedown = function(e){
+        if(!this.isDrawing){
+            if(this.promise){
+                clearTimeout(this.promise);
+                this.promise = null;
+            }
+            this.ctx.clearRect(0, 0, 306, 306);
+            [this.isDrawing, this.x, this.y] = [true, e.offsetX, e.offsetY];
+        }
+    };
+
+    static mousemove = function(e){
+        if(!this.isDrawing) return;
+
+        const ctx = this.ctx;
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        [this.x, this.y] = [e.offsetX, e.offsetY];
+        ctx.lineTo(this.x, this.y);
+        ctx.stroke();
+    };
+
+    static mouseup = function(e){
+        if(this.isDrawing){
+            this.isDrawing = false;
+            // download();
+            // document.getElementById('imglink').href = this.canvas.toDataURL();
+            
+            if(this.pac, false){
+                this.control();
+            } else {
+                predict(this.canvas, this);
+            }
+            
+        }
+    }
+
+    constructor(canvas, pac){
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.pac = pac;
+    }
+
+    req(){
+        predict(this.canvas);
+        return prediction;
+    }
+
+    decide(){
+        prediction.sort((a, b) => b.probability - a.probability)[0];
+
+        if(prediction[0].probability > 0.7){
+            return prediction[0].className;
+        }
+
+        return 'none';
+    }
+
+    capture(decision, time){
+        const img = new Image(), ctx = this.ctx, canvas = this.canvas;
+        img.src = 'img/direction/'+decision+'.png';
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        setTimeout(() => ctx.drawImage(img, 0, 0, canvas.width, canvas.height), 50);
+        this.promise = setTimeout(() => ctx.clearRect(0, 0, canvas.width, canvas.height), time * 1000);
+    }
+
+    control(){
+        const decision = this.decide();
+
+        this.capture(decision, 0.5);
+        if(decision !== 'none'){
+            this.pac.rotate(decision);
+        }
+    }
+
+    on(){
+        this.canvas.addEventListener('mousedown', Controller.mousedown.bind(this));
+        this.canvas.addEventListener('mousemove', Controller.mousemove.bind(this));
+        this.canvas.addEventListener('mouseup', Controller.mouseup.bind(this));
+    }
+
+    off(){
+        this.canvas.removeEventListener('mousedown', Controller.mousedown.bind(this));
+        this.canvas.removeEventListener('mousemove', Controller.mousemove.bind(this));
+        this.canvas.removeEventListener('mouseup', Controller.mouseup.bind(this));
+    }
+}
+
+    const controller = new Controller(document.getElementById('controller'));
+    controller.ctx.lineWidth = 5;
+    controller.on();
+    const can = controller.canvas, ctx = controller.ctx;
+
+//     function download() {
+//     var download = document.getElementById("download");
+//     var image = document.getElementById("controller")
+//         .toDataURL("image/png")
+//         .replace("image/png", "image/png");
+//     download.setAttribute("href", image);
+//     download.setAttribute("download","n.png");
+// }
+    </script>
   </body>
 </html>

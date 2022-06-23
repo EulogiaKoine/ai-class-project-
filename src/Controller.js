@@ -1,5 +1,5 @@
 const URL = "https://teachablemachine.withgoogle.com/models/6vD8X7Pcu/";
-let model, prediction;
+let model, prediction, imageURL;
 
 (async function init() {
     model = await tmImage.load(URL+"model.json", URL+"metadata.json");
@@ -7,6 +7,7 @@ let model, prediction;
 })()
 
 async function predict(canvas) {
+    imageURL = canvas.toDataURL();
     prediction = await model.predict(canvas);
 }
 

@@ -77,14 +77,14 @@ body {
 }
 
 #controller {
-  background: #25383C;
-  border: 3px solid #EBF4FA;
+  background: #EBF4FA;
+  border: 3px solid #25383C;
   transition: 0.1s;
 }
 
 #controller:hover {
-  background: #EBF4FA;
-  border-color: #25383C;
+  background: #25383C;
+  border-color: #EBF4FA;
 }
 
 #play {

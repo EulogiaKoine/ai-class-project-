@@ -1,4 +1,4 @@
-const URL = "https://teachablemachine.withgoogle.com/models/6vD8X7Pcu/";
+const URL = "https://teachablemachine.withgoogle.com/models/sj3h1W_bj/";
 let model, prediction, imageURL;
 
 (async function init() {
@@ -7,7 +7,6 @@ let model, prediction, imageURL;
 })()
 
 async function predict(canvas) {
-    imageURL = canvas.toDataURL();
     prediction = await model.predict(canvas);
 }
 
@@ -25,6 +24,8 @@ class Controller {
 
     static mousedown = function(e){
         if(!this.isDrawing){
+            const ctx = this.ctx, canvas = ctx.canvas;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             [this.isDrawing, this.x, this.y] = [true, e.offsetX, e.offsetY];
         }
     };
@@ -43,25 +44,34 @@ class Controller {
     static mouseup = function(e){
         if(this.isDrawing){
             this.isDrawing = false;
-            
-            if(this.pac, false){
-                this.control();
-            } else {
-                this.req();
-                setTimeout(() => this.capture(this.decide(), 1), 500);
-            }
+
+            const cont = this;
+            this.req().then(
+                function(){
+                    if(cont.pac){
+                        cont.control(cont.decide());
+                    } else {
+                        cont.capture(cont.decide());
+                    }
+                }
+            )
         }
     }
 
     constructor(canvas, pac){
         this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
+        
+        const ctx = canvas.getContext('2d');
+        ctx.strokeStyle = "white";
+        ctx.fillStyle = "skyblue";
+        ctx.font = "200px Arial";
+        this.ctx = ctx;
+
         this.pac = pac;
     }
 
     req(){
-        predict(this.canvas);
-        return prediction;
+        return predict(this.canvas);
     }
 
     decide(){
@@ -74,20 +84,43 @@ class Controller {
         return 'none';
     }
 
-    capture(decision, time){
-        const img = new Image(), ctx = this.ctx, canvas = this.canvas;
-        img.src = 'img/direction/'+decision+'.png';
+    capture(decision){
+        const ctx = this.ctx;
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        setTimeout(() => ctx.drawImage(img, 0, 0, canvas.width, canvas.height), 50);
-        setTimeout(() => ctx.clearRect(0, 0, canvas.width, canvas.height), time * 1000);
+        ctx.clearRect(0, 0, 300, 300);
+
+        ctx.fillStyle = "rgba(248, 248, 255, 0.9)";
+        let x, y;
+        switch(decision){
+            case 'up':
+                decision = '↑';
+                [x, y] = [100, 200];
+                break;
+            
+            case 'down':
+                decision = '↓';
+                [x, y] = [100, 200];
+                break;
+            
+            case 'left':
+                decision = '←';
+                [x, y] = [50, 200];
+                break;
+            
+            case 'right':
+                decision = '→';
+                [x, y] = [50, 200];
+                break;
+            
+            default:
+                decision = 'X';
+                [x, y] = [85, 215];
+        }
+        ctx.fillText(decision, x, y, 200);
     }
 
-    control(){
-        const decision = this.decide();
-
-        this.capture(decision, 0.5);
+    control(decision){
+        this.capture(decision);
         if(decision !== 'none'){
             this.pac.rotate(decision);
         }

@@ -5,15 +5,17 @@ class Game {
     scoreboard;
     record;
     pac = null;
+    canPlay = false;
     
     img = new Image();
 
-    constructor(screen, grid, scoreboard, record){
+    constructor(screen, grid, scoreboard, record, controller){
         this.screen = screen;
         this.grid = grid;
         this.scoreboard = scoreboard;
         this.record = record;
         this.img.src = 'img/gameover.png';
+        this.controller = controller;
     }
 
     get isPlaying(){
@@ -32,6 +34,8 @@ class Game {
             g1: new Ghost(8, 9, grid, screen, 'red'),
             g2: new Ghost(14, 14, grid, screen, 'blue')
         };
+
+        this.controller.pac = this.pac;
         [g1, g2].forEach(v => screen.applyEntity(v));
     }
 
@@ -40,6 +44,11 @@ class Game {
             throw new Error('이미 플레이 중!');
         }
 
+        if(!this.canPlay){
+            alert("AI를 잠에서 깨우는 중입니다...... 잠시 후 다시 시도해주세요!");
+            return;
+        }
+        
         if(!this.isStarted){
             this.clear();
             this.init();
@@ -49,6 +58,8 @@ class Game {
         const button = document.getElementById('play');
         button.innerText = 'PAUSE';
         button.onclick = () => this.pause();
+
+        this.controller.on();
 
         this.loopID = setInterval(() => this.step(), getStageDelay(this.scoreboard.stage));
     }
@@ -61,6 +72,8 @@ class Game {
         const button = document.getElementById('play');
         button.innerText = 'PLAY';
         button.onclick = () => this.play();
+
+        this.controller.off();
 
         clearInterval(this.loopID);
         this.loopID = null;

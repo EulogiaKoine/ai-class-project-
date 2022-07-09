@@ -13,23 +13,25 @@
 
       #controller {
         margin: auto;
-  background:white;
+  background: gray;
   border: 3px solid #EBF4FA;
   transition: 0.1s;
 }
 
 #controller:hover {
-  background: white;
+  background: black;
   border-color: #25383C;
 }
     </style>
   </head>
   <body>
-    <a id="download">download</a>
+    <button id="download" onclick="download()">download</button>
     <canvas id="controller" width="306px" height="306px"></canvas>
     <a id='imglink' href='' target="_blank">link</a>
+    <br>
+    <p id="result"></p>
     <script type="text/javascript">
-      const URL = "https://teachablemachine.withgoogle.com/models/rFuFEgdqQ/";
+      const URL = "https://teachablemachine.withgoogle.com/models/sj3h1W_bj/";
 let model, prediction, imageURL;
 
 (async function init() {
@@ -39,18 +41,19 @@ let model, prediction, imageURL;
 
 async function predict(canvas, controller) {
     const img = new Image();
-    img.src = canvas.toDataURL();
+    const link = canvas.toDataURL('image/jpeg', 0.5);
+    img.src = link;
     img.crossOrigin = 'anonymous';
-    prediction = await model.predict(img);
+    prediction = await model.predict(canvas);
     prediction = prediction.sort((a, b) => b.probability - a.probability)[0];
-    
-    setTimeout(() => {
-        if(prediction.probability > 0.6){
-            controller.capture(prediction.className, 1);
-        } else {
-            controller.capture('none', 1);
-        }
-    }, 500);
+    checkResult(prediction);
+    // setTimeout(() => {
+    //     if(prediction.probability > 0.6){
+    //         controller.capture(prediction.className, 1);
+    //     } else {
+    //         controller.capture('none', 1);
+    //     }
+    // }, 500);
 }
 
 //---------- Model Layer ----------
@@ -73,6 +76,7 @@ class Controller {
                 this.promise = null;
             }
             this.ctx.clearRect(0, 0, 306, 306);
+            this.ctx.strokeStyle = "white";
             [this.isDrawing, this.x, this.y] = [true, e.offsetX, e.offsetY];
         }
     };
@@ -92,14 +96,13 @@ class Controller {
         if(this.isDrawing){
             this.isDrawing = false;
             // download();
-            // document.getElementById('imglink').href = this.canvas.toDataURL();
+            document.getElementById('imglink').href = this.canvas.toDataURL('image/jpeg');
             
             if(this.pac, false){
                 this.control();
             } else {
                 predict(this.canvas, this);
             }
-            
         }
     }
 
@@ -160,15 +163,22 @@ class Controller {
     controller.ctx.lineWidth = 5;
     controller.on();
     const can = controller.canvas, ctx = controller.ctx;
+    
 
-//     function download() {
-//     var download = document.getElementById("download");
-//     var image = document.getElementById("controller")
-//         .toDataURL("image/png")
-//         .replace("image/png", "image/png");
-//     download.setAttribute("href", image);
-//     download.setAttribute("download","n.png");
-// }
+    function download() {
+    var download = document.createElement("a");
+    var image = document.getElementById("controller")
+        .toDataURL('image/jpeg', 0.5);
+    download.setAttribute("href", image);
+    download.setAttribute("download","n.jpg");
+    download.click();
+    download.remove();
+}
+
+    function checkResult(prediction){
+        let p = document.getElementById('result');
+        p.innerText = JSON.stringify(prediction);
+    }
     </script>
   </body>
 </html>

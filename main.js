@@ -15,6 +15,7 @@ scoreboard.write();
 const game = new Game(screen, grid, scoreboard, record);
 document.getElementById('play').onclick = () => game.play();
 
+//---------- 키보드 조작용 ----------
 // function handleKeydown(e){
 //     if(e.keyCode < 37 || e.keyCode > 40) return;
 
@@ -47,15 +48,5 @@ game.controller = controller;
                 ready(canvas);
             }
         );
-        if(true){
-            const ready = setInterval(() => {
-                if(typeof prediction === 'object'){
-                    game.canPlay = true;
-                    // controller.on();
-
-                    clearInterval(ready);
-                }
-            }, 100);
-        }
     }, 2000);
 })(cont.canvas);

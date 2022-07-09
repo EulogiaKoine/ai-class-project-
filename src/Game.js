@@ -74,6 +74,7 @@ class Game {
         button.onclick = () => this.play();
 
         this.controller.off();
+        this.controller.ctx.clearRect(0, 0, 300, 300);
 
         clearInterval(this.loopID);
         this.loopID = null;
